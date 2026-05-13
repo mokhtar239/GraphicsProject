@@ -1,7 +1,7 @@
 #include <vector>
 #include <cmath>
 #include <windows.h>
-
+#include "../lines/LineDDA.h"
 
 struct Point2D {
     double x, y;
@@ -20,13 +20,25 @@ std::vector<Point2D> ClipPolygonEdge(const std::vector<Point2D>& poly, int edgeT
         
         // Determine inside/outside status based on the specific edge
         if (edgeType == 0) // Left
-            currInside = (curr.x >= x_min); prevInside = (prev.x >= x_min);
+        {
+            currInside = (curr.x >= x_min);
+            prevInside = (prev.x >= x_min);
+        }
         else if (edgeType == 1) // Right
-            currInside = (curr.x <= x_max); prevInside = (prev.x <= x_max);
+        {
+            currInside = (curr.x <= x_max);
+            prevInside = (prev.x <= x_max);
+        }
         else if (edgeType == 2) // Bottom
-            currInside = (curr.y >= y_min); prevInside = (prev.y >= y_min);
+        {
+            currInside = (curr.y >= y_min);
+            prevInside = (prev.y >= y_min);
+        }
         else if (edgeType == 3) // Top
-            currInside = (curr.y <= y_max); prevInside = (prev.y <= y_max);
+        {
+            currInside = (curr.y <= y_max);
+            prevInside = (prev.y <= y_max);
+        }
         
 
         // Logic for finding intersection and pushing vertices
@@ -67,6 +79,6 @@ void ClipAndDrawPolygon(HDC hdc, std::vector<Point2D> poly, int x_min, int y_min
         Point2D p1 = poly[i];
         Point2D p2 = poly[(i + 1) % poly.size()];
         
-        DrawLine(hdc, std::round(p1.x), std::round(p1.y), std::round(p2.x), std::round(p2.y), color);
+        DrawLineDDA(hdc, std::round(p1.x), std::round(p1.y), std::round(p2.x), std::round(p2.y), color);
     }
 }

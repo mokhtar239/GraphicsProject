@@ -1,5 +1,7 @@
 #pragma once
+#ifndef NOMINMAX
 #define NOMINMAX // Prevent Windows.h from defining min/max macros that conflict with std::min/std::max
+#endif
 #include <Windows.h>
 #include <algorithm>
 

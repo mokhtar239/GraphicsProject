@@ -1,5 +1,6 @@
 #include <cmath>
 #include <windows.h>
+#include "../lines/LineDDA.h"
 
 const int INSIDE = 0; // 0000
 const int LEFT   = 1; // 0001
@@ -74,6 +75,6 @@ void ClipRectangleLine(HDC hdc, int x1, int y1, int x2, int y2, int x_min, int y
     
     // Draw the final clipped line segment if it was accepted
     if (accept) {
-        DrawLine(hdc, std::round(x1), std::round(y1), std::round(x2), std::round(y2), color);
+        DrawLineDDA(hdc, std::round(x1), std::round(y1), std::round(x2), std::round(y2), color);
     }
 }
