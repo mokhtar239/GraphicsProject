@@ -1,0 +1,15 @@
+#pragma once
+
+#define IDR_MYMENU 101
+
+#define ID_FILE_CLEAR 9001
+#define ID_FILE_SAVE  9002
+#define ID_FILE_LOAD  9003
+
+#define ID_PREF_BG_WHITE 9011
+#define ID_PREF_CURSOR   9012
+#define ID_PREF_COLOR    9013
+
+#define ID_LINE_DDA        9021
+#define ID_LINE_MIDPOINT   9022
+#define ID_LINE_PARAMETRIC 9023
