@@ -69,8 +69,9 @@ void DrawShape(HDC hdc, const Shape &shape)
     }
     case SHAPE_CURVE_CARDINAL:
     {
-        POINT pts[4] = {{x1, y1}, {x1, y2}, {x2, y1}, {x2, y2}};
-        DrawCardinalSpline(hdc, pts, 4, 1.0, shape.color);
+        if (shape.polygonPts.size() >= 2) {
+            DrawCardinalSpline(hdc, shape.polygonPts.data(), shape.polygonPts.size(), 0.0, shape.color);
+        }
         break;
     }
 

@@ -267,6 +267,7 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam) {
                 case ID_CURVE_CARDINAL: 
                     currentShapeType = SHAPE_CURVE_CARDINAL; 
                     currentMode = MODE_DRAW_SHAPE; 
+                    currentPolygonPts.clear();
                     std::cout << "Selected Cardinal Curve.\n"; 
                     break;
 
@@ -368,7 +369,8 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam) {
 
             if (currentMode != MODE_DRAW_SHAPE) {
                 isDrawing = true;
-            } else if (currentShapeType == SHAPE_CLIP_POLY || currentShapeType == SHAPE_FILL_CONVEX || currentShapeType == SHAPE_FILL_NONCONVEX) {
+            } else if (currentShapeType == SHAPE_CLIP_POLY || currentShapeType == SHAPE_FILL_CONVEX || 
+                       currentShapeType == SHAPE_FILL_NONCONVEX || currentShapeType == SHAPE_CURVE_CARDINAL) {
                 POINT p = {startX, startY};
                 currentPolygonPts.push_back(p);
                 InvalidateRect(hwnd, NULL, TRUE); 
@@ -378,7 +380,8 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam) {
             break;
 
         case WM_RBUTTONDOWN:
-            if (currentMode == MODE_DRAW_SHAPE && (currentShapeType == SHAPE_CLIP_POLY || currentShapeType == SHAPE_FILL_CONVEX || currentShapeType == SHAPE_FILL_NONCONVEX)) {
+            if (currentMode == MODE_DRAW_SHAPE && (currentShapeType == SHAPE_CLIP_POLY || currentShapeType == SHAPE_FILL_CONVEX || 
+                currentShapeType == SHAPE_FILL_NONCONVEX || currentShapeType == SHAPE_CURVE_CARDINAL)) {
                 if (currentPolygonPts.size() > 1) {
                     Shape s;
                     s.type = currentShapeType;
@@ -471,7 +474,8 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam) {
             DeleteObject(hPen);
 
             if (currentMode == MODE_DRAW_SHAPE && !currentPolygonPts.empty() && 
-               (currentShapeType == SHAPE_CLIP_POLY || currentShapeType == SHAPE_FILL_CONVEX || currentShapeType == SHAPE_FILL_NONCONVEX)) {
+               (currentShapeType == SHAPE_CLIP_POLY || currentShapeType == SHAPE_FILL_CONVEX || 
+                currentShapeType == SHAPE_FILL_NONCONVEX || currentShapeType == SHAPE_CURVE_CARDINAL)) {
                 HPEN hp = CreatePen(PS_SOLID, 1, currentColor);
                 HPEN oldHp = (HPEN)SelectObject(hdc, hp);
                 MoveToEx(hdc, currentPolygonPts[0].x, currentPolygonPts[0].y, NULL);
@@ -568,7 +572,8 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam) {
                     }
                     else if (currentShapeType != SHAPE_CLIP_POLY && 
                                currentShapeType != SHAPE_FILL_CONVEX && 
-                               currentShapeType != SHAPE_FILL_NONCONVEX) {
+                               currentShapeType != SHAPE_FILL_NONCONVEX &&
+                               currentShapeType != SHAPE_CURVE_CARDINAL) {
                         Shape temp;
                         temp.type = currentShapeType;
                         temp.x1 = startX; temp.y1 = startY;
