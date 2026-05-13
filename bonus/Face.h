@@ -6,5 +6,6 @@
 #include <algorithm>
 
 // Bonus Smiley Face Implementations
-void DrawHappyFace(HDC hdc, int xc, int yc, int radius, COLORREF c);
-void DrawSadFace(HDC hdc, int xc, int yc, int radius, COLORREF c);
+// bgColor: the background color currently on the DC (used for correct flood fill seeding)
+void DrawHappyFace(HDC hdc, int xc, int yc, int radius, COLORREF c, COLORREF bgColor = RGB(255, 255, 255));
+void DrawSadFace(HDC hdc, int xc, int yc, int radius, COLORREF c, COLORREF bgColor = RGB(255, 255, 255));
