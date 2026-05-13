@@ -4,18 +4,19 @@
 
 void FillCircleWithLines(HDC hdc, int xc, int yc, int R, int quarter, int color)
 {
-    // Determine angles based on the quarter (1 to 4)
-    double startAngle = (quarter - 1) * 90.0;
-    double endAngle = quarter * 90.0;
+	if (R <= 0) return;
 
-    double dtheta = 1.0 / R;
+	double PI = 3.14159265359;
+	double startRad = (quarter - 1) * PI / 2.0;
+	double endRad = quarter * PI / 2.0;
 
-    for (double theta = startAngle; theta <= endAngle; theta += dtheta)
-    {
-        double rad = theta * 3.14159 / 180.0;
-        int x = xc + R * std::cos(rad);
-        int y = yc + R * std::sin(rad);
+	double dtheta = 0.1 / R;
 
-        DrawLineDDA(hdc, xc, yc, x, y, color);
-    }
+	for (double rad = startRad; rad <= endRad; rad += dtheta)
+	{
+		int x = xc + (int)std::round(R * std::cos(rad));
+		int y = yc + (int)std::round(R * std::sin(rad));
+
+		DrawLineDDA(hdc, xc, yc, x, y, color);
+	}
 }

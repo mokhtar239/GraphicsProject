@@ -1,22 +1,23 @@
 #include <cmath>
 #include <windows.h>
 
-void FillCircleWithCircles(HDC hdc, int xc, int yc, int R, int quarter, int color) 
+void FillCircleWithCircles(HDC hdc, int xc, int yc, int R, int quarter, int color)
 {
-    // Determine angles based on the quarter (1 to 4)
-    double startAngle = (quarter - 1) * 90.0;
-    double endAngle = quarter * 90.0;
+	if (R <= 0) return;
 
-    double dtheta = 1.0 / R;
-    
-    for (int r = 1; r <= R; r++)
-    {
-        for (double theta = startAngle; theta <= endAngle; theta += dtheta) 
-        { 
-            double rad = theta * 3.14159 / 180.0;
-            int x = xc + r * std::cos(rad);
-            int y = yc + r * std::sin(rad);
-            SetPixel(hdc, x, y, color);
-        }
-    }
+	double PI = 3.14159265359;
+	double startRad = (quarter - 1) * PI / 2.0;
+	double endRad = quarter * PI / 2.0;
+
+	for (double r = 0.5; r <= R; r += 0.5)
+	{
+		double dtheta = 0.5 / r;
+
+		for (double rad = startRad; rad <= endRad; rad += dtheta)
+		{
+			int x = xc + (int)std::round(r * std::cos(rad));
+			int y = yc + (int)std::round(r * std::sin(rad));
+			SetPixel(hdc, x, y, color);
+		}
+	}
 }
