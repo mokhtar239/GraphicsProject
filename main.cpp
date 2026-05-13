@@ -387,7 +387,14 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam) {
                     int r = (int)std::round(std::sqrt(std::pow(currentX - startX, 2) + std::pow(currentY - startY, 2)));
                     Ellipse(hdc, startX - r, startY - r, startX + r, startY + r);
                     SelectObject(hdc, o_rb); DeleteObject(rb);
-                } else if (currentMode == MODE_DRAW_SHAPE && currentShapeType != SHAPE_CLIP_POLY && currentShapeType != SHAPE_FILL_CONVEX && currentShapeType != SHAPE_FILL_NONCONVEX) {
+                } else if (currentMode == MODE_DRAW_SHAPE && 
+                            currentShapeType != SHAPE_CLIP_POLY && 
+                            currentShapeType != SHAPE_FILL_CONVEX && 
+                            currentShapeType != SHAPE_FILL_NONCONVEX &&
+                            currentShapeType != SHAPE_FILL_BEZIER &&
+                            currentShapeType != SHAPE_FILL_CIRCLE_CIRCLES &&
+                            currentShapeType != SHAPE_FILL_CIRCLE_LINES &&
+                            currentShapeType != SHAPE_FILL_SQUARE_HERMITE) {
                     Shape temp;
                     temp.type = currentShapeType;
                     temp.x1 = startX; temp.y1 = startY;
