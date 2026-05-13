@@ -96,9 +96,9 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam) {
             AppendMenu(hFillingMenu, MF_STRING, ID_FILL_FLOOD_NONREC, "Flood Non-Recursive");
             AppendMenu(hFillingMenu, MF_STRING, ID_FILL_CONVEX, "Convex");
             AppendMenu(hFillingMenu, MF_STRING, ID_FILL_NONCONVEX, "Non-Convex");
-            AppendMenu(hFillingMenu, MF_STRING, ID_FILL_BEZIER, "Bezier Filling");
             AppendMenu(hFillingMenu, MF_STRING, ID_FILL_CIRCLE_CIRCLES, "Circle with Circles");
             AppendMenu(hFillingMenu, MF_STRING, ID_FILL_CIRCLE_LINES, "Circle with Lines");
+            AppendMenu(hFillingMenu, MF_STRING, ID_FILL_BEZIER, "Rectangle Bezier");
             AppendMenu(hFillingMenu, MF_STRING, ID_FILL_SQUARE_HERMITE, "Square Hermite");
 
             HMENU hBonusMenu = CreatePopupMenu();
@@ -196,30 +196,103 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam) {
                     break;
                 }
 
-                case ID_LINE_DDA: currentShapeType = SHAPE_LINE_DDA; currentMode = MODE_DRAW_SHAPE; std::cout << "Selected DDA Line.\n"; break;
-                case ID_LINE_MIDPOINT: currentShapeType = SHAPE_LINE_MIDPOINT; currentMode = MODE_DRAW_SHAPE; std::cout << "Selected Midpoint Line.\n"; break;
-                case ID_LINE_PARAMETRIC: currentShapeType = SHAPE_LINE_PARAMETRIC; currentMode = MODE_DRAW_SHAPE; std::cout << "Selected Parametric Line.\n"; break;
+                case ID_LINE_DDA: 
+                    currentShapeType = SHAPE_LINE_DDA; 
+                    currentMode = MODE_DRAW_SHAPE; 
+                    std::cout << "Selected DDA Line.\n"; 
+                    break;
+                case ID_LINE_MIDPOINT: 
+                    currentShapeType = SHAPE_LINE_MIDPOINT; 
+                    currentMode = MODE_DRAW_SHAPE; 
+                    std::cout << "Selected Midpoint Line.\n"; 
+                    break;
+                case ID_LINE_PARAMETRIC: 
+                    currentShapeType = SHAPE_LINE_PARAMETRIC; 
+                    currentMode = MODE_DRAW_SHAPE; 
+                    std::cout << "Selected Parametric Line.\n"; 
+                    break;
 
-                case ID_CIRCLE_DIRECT: currentShapeType = SHAPE_CIRCLE_DIRECT; currentMode = MODE_DRAW_SHAPE; std::cout << "Selected Circle Direct.\n"; break;
-                case ID_CIRCLE_POLAR: currentShapeType = SHAPE_CIRCLE_POLAR; currentMode = MODE_DRAW_SHAPE; std::cout << "Selected Circle Polar.\n"; break;
-                case ID_CIRCLE_ITERATIVE_POLAR: currentShapeType = SHAPE_CIRCLE_ITERATIVE_POLAR; currentMode = MODE_DRAW_SHAPE; std::cout << "Selected Circle Iterative Polar.\n"; break;
-                case ID_CIRCLE_MIDPOINT: currentShapeType = SHAPE_CIRCLE_MIDPOINT; currentMode = MODE_DRAW_SHAPE; std::cout << "Selected Circle Midpoint.\n"; break;
-                case ID_CIRCLE_MODIFIED_MIDPOINT: currentShapeType = SHAPE_CIRCLE_MODIFIED_MIDPOINT; currentMode = MODE_DRAW_SHAPE; std::cout << "Selected Circle Modified Midpoint.\n"; break;
+                case ID_CIRCLE_DIRECT: 
+                    currentShapeType = SHAPE_CIRCLE_DIRECT; 
+                    currentMode = MODE_DRAW_SHAPE; 
+                    std::cout << "Selected Circle Direct.\n"; 
+                    break;
+                case ID_CIRCLE_POLAR: 
+                    currentShapeType = SHAPE_CIRCLE_POLAR; 
+                    currentMode = MODE_DRAW_SHAPE; 
+                    std::cout << "Selected Circle Polar.\n"; 
+                    break;
+                case ID_CIRCLE_ITERATIVE_POLAR: 
+                    currentShapeType = SHAPE_CIRCLE_ITERATIVE_POLAR; 
+                    currentMode = MODE_DRAW_SHAPE; 
+                    std::cout << "Selected Circle Iterative Polar.\n"; 
+                    break;
+                case ID_CIRCLE_MIDPOINT: 
+                    currentShapeType = SHAPE_CIRCLE_MIDPOINT; 
+                    currentMode = MODE_DRAW_SHAPE; 
+                    std::cout << "Selected Circle Midpoint.\n"; 
+                    break;
+                case ID_CIRCLE_MODIFIED_MIDPOINT: 
+                    currentShapeType = SHAPE_CIRCLE_MODIFIED_MIDPOINT; 
+                    currentMode = MODE_DRAW_SHAPE; 
+                    std::cout << "Selected Circle Modified Midpoint.\n"; 
+                    break;
 
-                case ID_ELLIPSE_DIRECT: currentShapeType = SHAPE_ELLIPSE_DIRECT; currentMode = MODE_DRAW_SHAPE; std::cout << "Selected Ellipse Direct.\n"; break;
-                case ID_ELLIPSE_POLAR: currentShapeType = SHAPE_ELLIPSE_POLAR; currentMode = MODE_DRAW_SHAPE; std::cout << "Selected Ellipse Polar.\n"; break;
-                case ID_ELLIPSE_MIDPOINT: currentShapeType = SHAPE_ELLIPSE_MIDPOINT; currentMode = MODE_DRAW_SHAPE; std::cout << "Selected Ellipse Midpoint.\n"; break;
+                case ID_ELLIPSE_DIRECT: 
+                    currentShapeType = SHAPE_ELLIPSE_DIRECT; 
+                    currentMode = MODE_DRAW_SHAPE; 
+                    std::cout << "Selected Ellipse Direct.\n"; 
+                    break;
+                case ID_ELLIPSE_POLAR: 
+                    currentShapeType = SHAPE_ELLIPSE_POLAR; 
+                    currentMode = MODE_DRAW_SHAPE; 
+                    std::cout << "Selected Ellipse Polar.\n"; 
+                    break;
+                case ID_ELLIPSE_MIDPOINT: 
+                    currentShapeType = SHAPE_ELLIPSE_MIDPOINT; 
+                    currentMode = MODE_DRAW_SHAPE; 
+                    std::cout << "Selected Ellipse Midpoint.\n"; 
+                    break;
 
-                case ID_CURVE_BEZIER: currentShapeType = SHAPE_CURVE_BEZIER; currentMode = MODE_DRAW_SHAPE; std::cout << "Selected Bezier Curve.\n"; break;
-                case ID_CURVE_HERMITE: currentShapeType = SHAPE_CURVE_HERMITE; currentMode = MODE_DRAW_SHAPE; std::cout << "Selected Hermite Curve.\n"; break;
-                case ID_CURVE_CARDINAL: currentShapeType = SHAPE_CURVE_CARDINAL; currentMode = MODE_DRAW_SHAPE; std::cout << "Selected Cardinal Curve.\n"; break;
+                case ID_CURVE_BEZIER: 
+                    currentShapeType = SHAPE_CURVE_BEZIER; 
+                    currentMode = MODE_DRAW_SHAPE; 
+                    std::cout << "Selected Bezier Curve.\n"; 
+                    break;
+                case ID_CURVE_HERMITE: 
+                    currentShapeType = SHAPE_CURVE_HERMITE; 
+                    currentMode = MODE_DRAW_SHAPE; 
+                    std::cout << "Selected Hermite Curve.\n"; 
+                    break;
+                case ID_CURVE_CARDINAL: 
+                    currentShapeType = SHAPE_CURVE_CARDINAL; 
+                    currentMode = MODE_DRAW_SHAPE; 
+                    std::cout << "Selected Cardinal Curve.\n"; 
+                    break;
 
-                case ID_SET_CLIP_RECT: currentMode = MODE_SET_CLIP_RECT; std::cout << "Drag to set RECTANGLE clipping window.\n"; break;
-                case ID_SET_CLIP_SQUARE: currentMode = MODE_SET_CLIP_SQUARE; std::cout << "Drag to set SQUARE clipping window.\n"; break;
-                case ID_SET_CLIP_CIRCLE: currentMode = MODE_SET_CLIP_CIRCLE; std::cout << "Drag to set CIRCLE clipping window.\n"; break;
+                case ID_SET_CLIP_RECT: 
+                    currentMode = MODE_SET_CLIP_RECT; 
+                    std::cout << "Drag to set RECTANGLE clipping window.\n"; 
+                    break;
+                case ID_SET_CLIP_SQUARE: 
+                    currentMode = MODE_SET_CLIP_SQUARE; 
+                    std::cout << "Drag to set SQUARE clipping window.\n"; 
+                    break;
+                case ID_SET_CLIP_CIRCLE: 
+                    currentMode = MODE_SET_CLIP_CIRCLE; 
+                    std::cout << "Drag to set CIRCLE clipping window.\n"; 
+                    break;
 
-                case ID_CLIP_DRAW_POINT: currentMode = MODE_DRAW_SHAPE; currentShapeType = SHAPE_CLIP_POINT; std::cout << "Draw Clipped Point.\n"; break;
-                case ID_CLIP_DRAW_LINE: currentMode = MODE_DRAW_SHAPE; currentShapeType = SHAPE_CLIP_LINE; std::cout << "Draw Clipped Line.\n"; break;
+                case ID_CLIP_DRAW_POINT: 
+                    currentMode = MODE_DRAW_SHAPE; 
+                    currentShapeType = SHAPE_CLIP_POINT; 
+                    std::cout << "Draw Clipped Point.\n"; 
+                    break;
+                case ID_CLIP_DRAW_LINE: 
+                    currentMode = MODE_DRAW_SHAPE; 
+                    currentShapeType = SHAPE_CLIP_LINE; 
+                    std::cout << "Draw Clipped Line.\n"; 
+                    break;
                 case ID_CLIP_DRAW_POLY:
                     if (globalClipRegion.shape == CLIP_CIRCLE) {
                         std::cout << "[ERROR] Polygon clipping requires Rect or Square!\n";
@@ -231,17 +304,59 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam) {
                     }
                     break;
 
-                case ID_FILL_FLOOD_REC: currentShapeType = SHAPE_FILL_FLOOD_REC; currentMode = MODE_DRAW_SHAPE; std::cout << "Selected Flood Recursive.\n"; break;
-                case ID_FILL_FLOOD_NONREC: currentShapeType = SHAPE_FILL_FLOOD_NONREC; currentMode = MODE_DRAW_SHAPE; std::cout << "Selected Flood Non-Recursive.\n"; break;
-                case ID_FILL_CONVEX: currentShapeType = SHAPE_FILL_CONVEX; currentMode = MODE_DRAW_SHAPE; currentPolygonPts.clear(); std::cout << "Selected Convex Fill.\n"; break;
-                case ID_FILL_NONCONVEX: currentShapeType = SHAPE_FILL_NONCONVEX; currentMode = MODE_DRAW_SHAPE; currentPolygonPts.clear(); std::cout << "Selected Non-Convex Fill.\n"; break;
-                case ID_FILL_BEZIER: currentShapeType = SHAPE_FILL_BEZIER; currentMode = MODE_DRAW_SHAPE; std::cout << "Selected Bezier Fill.\n"; break;
-                case ID_FILL_CIRCLE_CIRCLES: currentShapeType = SHAPE_FILL_CIRCLE_CIRCLES; currentMode = MODE_DRAW_SHAPE; std::cout << "Selected Circle with Circles Fill.\n"; break;
-                case ID_FILL_CIRCLE_LINES: currentShapeType = SHAPE_FILL_CIRCLE_LINES; currentMode = MODE_DRAW_SHAPE; std::cout << "Selected Circle with Lines Fill.\n"; break;
-                case ID_FILL_SQUARE_HERMITE: currentShapeType = SHAPE_FILL_SQUARE_HERMITE; currentMode = MODE_DRAW_SHAPE; std::cout << "Selected Square Hermite Fill.\n"; break;
+                case ID_FILL_FLOOD_REC: 
+                    currentShapeType = SHAPE_FILL_FLOOD_REC; 
+                    currentMode = MODE_DRAW_SHAPE; 
+                    std::cout << "Selected Flood Recursive.\n"; 
+                    break;
+                case ID_FILL_FLOOD_NONREC: 
+                    currentShapeType = SHAPE_FILL_FLOOD_NONREC; 
+                    currentMode = MODE_DRAW_SHAPE; 
+                    std::cout << "Selected Flood Non-Recursive.\n"; 
+                    break;
+                case ID_FILL_CONVEX: 
+                    currentShapeType = SHAPE_FILL_CONVEX; 
+                    currentMode = MODE_DRAW_SHAPE; 
+                    currentPolygonPts.clear(); 
+                    std::cout << "Selected Convex Fill.\n"; 
+                    break;
+                case ID_FILL_NONCONVEX: 
+                    currentShapeType = SHAPE_FILL_NONCONVEX; 
+                    currentMode = MODE_DRAW_SHAPE; 
+                    currentPolygonPts.clear(); 
+                    std::cout << "Selected Non-Convex Fill.\n"; 
+                    break;
+                case ID_FILL_BEZIER: 
+                    currentShapeType = SHAPE_FILL_BEZIER; 
+                    currentMode = MODE_DRAW_SHAPE; 
+                    std::cout << "Selected Bezier Fill.\n"; 
+                    break;
+                case ID_FILL_CIRCLE_CIRCLES: 
+                    currentShapeType = SHAPE_FILL_CIRCLE_CIRCLES; 
+                    currentMode = MODE_DRAW_SHAPE; 
+                    std::cout << "Selected Circle with Circles Fill.\n"; 
+                    break;
+                case ID_FILL_CIRCLE_LINES: 
+                    currentShapeType = SHAPE_FILL_CIRCLE_LINES; 
+                    currentMode = MODE_DRAW_SHAPE; 
+                    std::cout << "Selected Circle with Lines Fill.\n"; 
+                    break;
+                case ID_FILL_SQUARE_HERMITE: 
+                    currentShapeType = SHAPE_FILL_SQUARE_HERMITE; 
+                    currentMode = MODE_DRAW_SHAPE; 
+                    std::cout << "Selected Square Hermite Fill.\n"; 
+                    break;
 
-                case ID_BONUS_HAPPY: currentShapeType = SHAPE_BONUS_HAPPY; currentMode = MODE_DRAW_SHAPE; std::cout << "Selected Happy Face.\n"; break;
-                case ID_BONUS_SAD: currentShapeType = SHAPE_BONUS_SAD; currentMode = MODE_DRAW_SHAPE; std::cout << "Selected Sad Face.\n"; break;
+                case ID_BONUS_HAPPY: 
+                    currentShapeType = SHAPE_BONUS_HAPPY; 
+                    currentMode = MODE_DRAW_SHAPE; 
+                    std::cout << "Selected Happy Face.\n"; 
+                    break;
+                case ID_BONUS_SAD: 
+                    currentShapeType = SHAPE_BONUS_SAD; 
+                    currentMode = MODE_DRAW_SHAPE; 
+                    std::cout << "Selected Sad Face.\n"; 
+                    break;
             }
             break;
 
@@ -387,21 +502,81 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam) {
                     int r = (int)std::round(std::sqrt(std::pow(currentX - startX, 2) + std::pow(currentY - startY, 2)));
                     Ellipse(hdc, startX - r, startY - r, startX + r, startY + r);
                     SelectObject(hdc, o_rb); DeleteObject(rb);
-                } else if (currentMode == MODE_DRAW_SHAPE && 
-                            currentShapeType != SHAPE_CLIP_POLY && 
-                            currentShapeType != SHAPE_FILL_CONVEX && 
-                            currentShapeType != SHAPE_FILL_NONCONVEX &&
-                            currentShapeType != SHAPE_FILL_BEZIER &&
-                            currentShapeType != SHAPE_FILL_CIRCLE_CIRCLES &&
-                            currentShapeType != SHAPE_FILL_CIRCLE_LINES &&
-                            currentShapeType != SHAPE_FILL_SQUARE_HERMITE) {
-                    Shape temp;
-                    temp.type = currentShapeType;
-                    temp.x1 = startX; temp.y1 = startY;
-                    temp.x2 = currentX; temp.y2 = currentY;
-                    temp.color = currentColor;
-                    temp.clipRegion = globalClipRegion;
-                    DrawShape(hdc, temp);
+                } else if (currentMode == MODE_DRAW_SHAPE) {
+                    
+                    if (currentShapeType == SHAPE_FILL_BEZIER) {
+                        HPEN pen = CreatePen(PS_DOT, 1, currentColor);
+                        HPEN oldPen = (HPEN)SelectObject(hdc, pen);
+                        HBRUSH oldBrush = (HBRUSH)SelectObject(hdc, GetStockObject(NULL_BRUSH));
+                        
+                        Rectangle(hdc, std::min(startX, currentX), std::min(startY, currentY), 
+                                       std::max(startX, currentX), std::max(startY, currentY));
+                        
+                        SelectObject(hdc, oldBrush);
+                        SelectObject(hdc, oldPen);
+                        DeleteObject(pen);
+                    } 
+                    else if (currentShapeType == SHAPE_FILL_SQUARE_HERMITE) {
+                        HPEN pen = CreatePen(PS_DOT, 1, currentColor);
+                        HPEN oldPen = (HPEN)SelectObject(hdc, pen);
+                        HBRUSH oldBrush = (HBRUSH)SelectObject(hdc, GetStockObject(NULL_BRUSH));
+                        
+                        int A = std::abs(currentX - startX);
+                        int B = std::abs(currentY - startY);
+                        int side = std::max(A, B);
+                        int xm = std::min(startX, currentX);
+                        int ym = std::min(startY, currentY);
+                        
+                        Rectangle(hdc, xm, ym, xm + side, ym + side);
+                        
+                        SelectObject(hdc, oldBrush);
+                        SelectObject(hdc, oldPen);
+                        DeleteObject(pen);
+                    }
+                    else if (currentShapeType == SHAPE_FILL_CIRCLE_CIRCLES || currentShapeType == SHAPE_FILL_CIRCLE_LINES) {
+                        HPEN pen = CreatePen(PS_DOT, 1, currentColor);
+                        HPEN oldPen = (HPEN)SelectObject(hdc, pen);
+                        HBRUSH oldBrush = (HBRUSH)SelectObject(hdc, GetStockObject(NULL_BRUSH));
+                        
+                        int r = (int)std::round(std::sqrt(std::pow(currentX - startX, 2) + std::pow(currentY - startY, 2)));
+                        int left = startX - r;
+                        int top = startY - r;
+                        int right = startX + r;
+                        int bottom = startY + r;
+                        
+                        int radX1, radY1, radX2, radY2;
+                        
+                        if (currentX >= startX && currentY >= startY) { 
+                            radX1 = startX; radY1 = startY + r;
+                            radX2 = startX + r; radY2 = startY;
+                        } else if (currentX < startX && currentY >= startY) { 
+                            radX1 = startX - r; radY1 = startY;
+                            radX2 = startX; radY2 = startY + r;
+                        } else if (currentX < startX && currentY < startY) { 
+                            radX1 = startX; radY1 = startY - r;
+                            radX2 = startX - r; radY2 = startY;
+                        } else { 
+                            radX1 = startX + r; radY1 = startY;
+                            radX2 = startX; radY2 = startY - r;
+                        }
+                        
+                        Pie(hdc, left, top, right, bottom, radX1, radY1, radX2, radY2);
+                        
+                        SelectObject(hdc, oldBrush);
+                        SelectObject(hdc, oldPen);
+                        DeleteObject(pen);
+                    }
+                    else if (currentShapeType != SHAPE_CLIP_POLY && 
+                               currentShapeType != SHAPE_FILL_CONVEX && 
+                               currentShapeType != SHAPE_FILL_NONCONVEX) {
+                        Shape temp;
+                        temp.type = currentShapeType;
+                        temp.x1 = startX; temp.y1 = startY;
+                        temp.x2 = currentX; temp.y2 = currentY;
+                        temp.color = currentColor;
+                        temp.clipRegion = globalClipRegion;
+                        DrawShape(hdc, temp);
+                    }
                 }
             }
             

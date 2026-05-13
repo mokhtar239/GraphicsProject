@@ -1,6 +1,7 @@
 #include "Face.h"
 #include <cmath>
 #include <vector>
+#include <climits>
 
 // 1. Basic Geometry & Utilities
 
