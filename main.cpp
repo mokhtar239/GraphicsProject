@@ -141,8 +141,8 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam) {
                 case ID_FILE_CLEAR:
                     shapes.clear();
                     currentPolygonPts.clear();
+                    globalClipRegion.shape = CLIP_NONE;
                     RedrawAllToMemDC();
-                    InvalidateRect(hwnd, NULL, TRUE);
                     std::cout << "Screen cleared.\n";
                     break;
                 case ID_FILE_SAVE:
@@ -155,7 +155,6 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam) {
                 case ID_FILE_LOAD:
                     if (LoadShapes(shapes, "shapes.txt")) {
                         RedrawAllToMemDC();
-                        InvalidateRect(hwnd, NULL, TRUE);
                         std::cout << "Loaded shapes from shapes.txt.\n";
                     } else {
                         std::cout << "Failed to load shapes.\n";
@@ -167,7 +166,6 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam) {
                     }
                     bgBrush = CreateSolidBrush(RGB(255, 255, 255));
                     RedrawAllToMemDC();
-                    InvalidateRect(hwnd, NULL, TRUE);
                     std::cout << "Background changed to white.\n";
                     break;
                 case ID_PREF_CURSOR:
@@ -359,6 +357,8 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam) {
                     std::cout << "Selected Sad Face.\n"; 
                     break;
             }
+            
+            InvalidateRect(hwnd, NULL, TRUE);
             break;
 
         case WM_LBUTTONDOWN:
@@ -460,13 +460,23 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam) {
             HBRUSH hNullBrush = (HBRUSH)GetStockObject(NULL_BRUSH);
             HBRUSH hOldBrush = (HBRUSH)SelectObject(hdc, hNullBrush);
 
-            if (globalClipRegion.shape == CLIP_RECT || globalClipRegion.shape == CLIP_SQUARE) {
-                Rectangle(hdc, globalClipRegion.xmin, globalClipRegion.ymin, globalClipRegion.xmax, globalClipRegion.ymax);
-            } else if (globalClipRegion.shape == CLIP_CIRCLE) {
-                Ellipse(hdc, globalClipRegion.centerX - globalClipRegion.radius,
-                             globalClipRegion.centerY - globalClipRegion.radius,
-                             globalClipRegion.centerX + globalClipRegion.radius,
-                             globalClipRegion.centerY + globalClipRegion.radius);
+            bool isClippingAction = (currentMode == MODE_SET_CLIP_RECT || 
+                                     currentMode == MODE_SET_CLIP_SQUARE || 
+                                     currentMode == MODE_SET_CLIP_CIRCLE ||
+                                     (currentMode == MODE_DRAW_SHAPE && 
+                                      (currentShapeType == SHAPE_CLIP_POINT || 
+                                       currentShapeType == SHAPE_CLIP_LINE || 
+                                       currentShapeType == SHAPE_CLIP_POLY)));
+
+            if (isClippingAction) {
+                if (globalClipRegion.shape == CLIP_RECT || globalClipRegion.shape == CLIP_SQUARE) {
+                    Rectangle(hdc, globalClipRegion.xmin, globalClipRegion.ymin, globalClipRegion.xmax, globalClipRegion.ymax);
+                } else if (globalClipRegion.shape == CLIP_CIRCLE) {
+                    Ellipse(hdc, globalClipRegion.centerX - globalClipRegion.radius,
+                                 globalClipRegion.centerY - globalClipRegion.radius,
+                                 globalClipRegion.centerX + globalClipRegion.radius,
+                                 globalClipRegion.centerY + globalClipRegion.radius);
+                }
             }
             
             SelectObject(hdc, hOldPen);
