@@ -43,19 +43,43 @@ static void DrawParametricLine(HDC hdc, int x1, int y1, int x2, int y2, COLORREF
     }
 }
 
+#include <vector>
+
 // 2. Filling and Advanced Geometry
 
-static void FloodFill4(HDC hdc, int x, int y, COLORREF oldColor, COLORREF newColor) {
-    COLORREF currentColor = GetPixel(hdc, x, y);
-    if (currentColor == oldColor && currentColor != newColor) {
-        SetPixel(hdc, x, y, newColor);
-        FloodFill4(hdc, x + 1, y, oldColor, newColor);
-        FloodFill4(hdc, x - 1, y, oldColor, newColor);
-        FloodFill4(hdc, x, y + 1, oldColor, newColor);
-        FloodFill4(hdc, x, y - 1, oldColor, newColor);
+struct Point2D {
+    int x, y;
+};
+
+static void FloodFill4(HDC hdc, int startX, int startY, COLORREF oldColor, COLORREF newColor) {
+   
+    if (oldColor == newColor) return;
+
+    COLORREF initialColor = GetPixel(hdc, startX, startY);
+    if (initialColor != oldColor || initialColor == CLR_INVALID) return;
+
+    std::vector<Point2D> pixelStack;
+    pixelStack.push_back({ startX, startY });
+
+    while (!pixelStack.empty()) {
+      
+        Point2D pt = pixelStack.back();
+        pixelStack.pop_back();
+
+        COLORREF currentColor = GetPixel(hdc, pt.x, pt.y);
+
+        
+        if (currentColor == oldColor && currentColor != CLR_INVALID) {
+            SetPixel(hdc, pt.x, pt.y, newColor);
+
+            // Push the 4 connected neighbors onto the stack
+            pixelStack.push_back({ pt.x + 1, pt.y });
+            pixelStack.push_back({ pt.x - 1, pt.y });
+            pixelStack.push_back({ pt.x, pt.y + 1 });
+            pixelStack.push_back({ pt.x, pt.y - 1 });
+        }
     }
 }
-
 // Specialized function for the D-shaped happy smile boundary
 static void DrawDShape(HDC hdc, int xc, int yc, int radius, COLORREF c) {
     int eyeOffset = radius / 3;
